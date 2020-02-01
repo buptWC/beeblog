@@ -10,7 +10,6 @@ type LoginController struct {
 }
 
 func (c *LoginController) Get() {
-	beego.Info("now in login Get")
 	if isexit := c.Input().Get("exit") == "true"; isexit {
 		c.Ctx.SetCookie("uname", "", -1)
 		c.Ctx.SetCookie("pwd", "", -1)
@@ -30,7 +29,6 @@ func (c *LoginController) Post() {
 		if autoLogin {
 			maxAge = (1 << 31) - 1
 		}
-		beego.Info("cur maxAge=", maxAge)
 		c.Ctx.SetCookie("uname", username, maxAge)
 		c.Ctx.SetCookie("pwd", pwd, maxAge)
 	}
