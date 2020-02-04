@@ -1,5 +1,5 @@
 {{define "navbar"}}
-<a class="navbar-brand" href="/">我的博客</a>
+<a class="navbar-brand" href="/">王木流梦的博客</a>
 <div>
     <ul class="nav navbar-nav">
         <li {{if .IsHome}}class="active"{{end}}><a href="/">首页</a></li>
@@ -11,9 +11,9 @@
 <div class="pull-right">
     <ul class="nav navbar-nav">
         {{if .IsLogin}}
-            <li><a href="/login?exit=true">注销</a></li>
+        <li><a href="/login?exit=true">注销</a></li>
         {{else}}
-            <li><a href="/login">登录</a></li>
+        <li><a href="/login">登录</a></li>
         {{end}}
     </ul>
 </div>
