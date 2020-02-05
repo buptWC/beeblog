@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"code.bytedance.com/beeblog/models"
+	"code.bytedance.com/beeblog/utils"
 	"github.com/astaxie/beego"
 )
 
@@ -39,6 +40,7 @@ func (c *CategoryController) Get() {
 
 	c.TplName = "category.html"
 	c.Data["IsCategory"] = true
+	c.Data["IsLogin"] = utils.CheckAccountCookie(c.Ctx)
 	categoryList, err := models.GetAllCategory()
 	if err != nil {
 		beego.Error("get category failed, err=", err)

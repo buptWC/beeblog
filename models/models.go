@@ -62,7 +62,9 @@ func RegisterDB() {
 func AddCategory(categoryName string) error {
 	o := orm.NewOrm()
 	cate := &Category{
-		Title: categoryName,
+		Title:     categoryName,
+		Created:   time.Now(),
+		TopicTime: time.Now(),
 	}
 	// 先在表中看是否已经有categoryName了
 	cateTable := o.QueryTable("category")
@@ -115,4 +117,36 @@ func DelCategory(categoryId string) error {
 		return err
 	}
 	return nil
+}
+
+func AddTopic(title, content string) error {
+	o := orm.NewOrm()
+
+	topic := &Topic{
+		Title:   title,
+		Content: content,
+		Created: time.Now(),
+		Updated: time.Now(),
+	}
+
+	_, err := o.Insert(topic)
+	if err != nil {
+		beego.Error("insert new topic to orm error, err=", err)
+	}
+	return err
+}
+
+func GetAllTopics(IsReverse bool) (topicList []*Topic, err error) {
+	o := orm.NewOrm()
+	topicTable := o.QueryTable("topic")
+
+	if IsReverse {
+		_, err = topicTable.OrderBy("-created").All(&topicList)
+	} else {
+		_, err = topicTable.All(&topicList)
+	}
+	if err != nil {
+		beego.Error("get topic from orm error, err=", err)
+	}
+	return topicList, err
 }
