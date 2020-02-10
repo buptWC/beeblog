@@ -150,3 +150,44 @@ func GetAllTopics(IsReverse bool) (topicList []*Topic, err error) {
 	}
 	return topicList, err
 }
+
+func GetTopic(tid string) (topic *Topic, err error) {
+	topicId, err := strconv.ParseInt(tid, 10, 64)
+	if err != nil {
+		beego.Error("tid is not legal, tid=", tid)
+		return topic, err
+	}
+
+	o := orm.NewOrm()
+	topic = &Topic{
+		Id: topicId,
+	}
+
+	err = o.Read(topic)
+	if err != nil {
+		beego.Error("read topic in orm error, err=", err)
+		return topic, err
+	}
+
+	topic.Views++
+	_, err = o.Update(topic)
+	if err != nil {
+		beego.Error("update topic in orm error, err=", err)
+	}
+	return topic, err
+}
+
+func ModifyTopic(title, content, tid string) error {
+	o := orm.NewOrm()
+	topic, _ := GetTopic(tid)
+
+	topic.Title = title
+	topic.Content = content
+	topic.Updated = time.Now()
+
+	_, err := o.Update(topic)
+	if err != nil {
+		beego.Error("modify topic error, err=", err)
+	}
+	return err
+}

@@ -11,21 +11,15 @@
 
     <div class="container">
         {{template "blank" .}}
+        {{range .Topics}}
         <div class="page-header">
-            <h1>我的第一篇博客</h1>
-            <h6 class="text-muted"> 文章发表于xxx</h6>
+            <h1>{{.Title}}</h1>
+            <h6 class="text-muted">发表于{{.Created}}, 观看{{.Views}}次, 回复数{{.ReplyCount}}</h6>
             <p>
-                大家好，这是我的博客，谢谢观看
+                {{.Content}}
             </p>
         </div>
-
-        <div class="page-header">
-            <h1>我的第二篇博客</h1>
-            <h6 class="text-muted"> 文章发表于xxx</h6>
-            <p>
-                大家好，这是我的博客，谢谢观看
-            </p>
-        </div>
+        {{end}}
 
     </div>
 
