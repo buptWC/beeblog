@@ -75,3 +75,13 @@ func (c *TopicController) Modify() {
 
 	c.Data["Topic"] = topic
 }
+
+func (c *TopicController) Delete() {
+	tid := c.Input().Get("tid")
+	err := models.DeleteTopic(tid)
+	if err != nil {
+		beego.Error(err)
+		return
+	}
+	c.Redirect("/", 302)
+}

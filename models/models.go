@@ -191,3 +191,20 @@ func ModifyTopic(title, content, tid string) error {
 	}
 	return err
 }
+
+func DeleteTopic(tid string) error {
+	topicId, err := strconv.ParseInt(tid, 10, 64)
+	if err != nil {
+		beego.Error("tid is not legal, tid=", tid)
+		return err
+	}
+
+	o := orm.NewOrm()
+	qs := o.QueryTable("topic")
+	_, err = qs.Filter("id", topicId).Delete()
+	if err != nil {
+		beego.Error("delete topic error, err=", err)
+	}
+
+	return err
+}
