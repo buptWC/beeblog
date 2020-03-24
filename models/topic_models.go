@@ -7,14 +7,15 @@ import (
 	"time"
 )
 
-func AddTopic(title, content string) error {
+func AddTopic(title, category, content string) error {
 	o := orm.NewOrm()
 
 	topic := &Topic{
-		Title:   title,
-		Content: content,
-		Created: time.Now(),
-		Updated: time.Now(),
+		Title:    title,
+		Category: category,
+		Content:  content,
+		Created:  time.Now(),
+		Updated:  time.Now(),
 	}
 
 	_, err := o.Insert(topic)
@@ -65,13 +66,14 @@ func GetTopic(tid string) (topic *Topic, err error) {
 	return topic, err
 }
 
-func ModifyTopic(title, content, tid string) error {
+func ModifyTopic(title, category, content, tid string) error {
 	o := orm.NewOrm()
 	topic, _ := GetTopic(tid)
 
 	topic.Title = title
 	topic.Content = content
 	topic.Updated = time.Now()
+	topic.Category = category
 
 	_, err := o.Update(topic)
 	if err != nil {

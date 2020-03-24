@@ -30,7 +30,7 @@
         {{range .Topics}}
             <tr>
                 <th>{{.Id}}</th>
-                <td>{{.Title}}</td>
+                <td><a href="/topic/view/{{.Id}}">{{.Title}}</a></td>
                 <td>{{.Updated}}</td>
                 <td>{{.Views}}</td>
                 <td>{{.ReplyCount}}</td>

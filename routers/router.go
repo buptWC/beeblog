@@ -13,4 +13,5 @@ func init() {
 	// 自动路由功能，函数名和路径保持一致，例如/topic就会默认调topicController
 	// /topic/add自动调TopicController下的add方法
 	beego.AutoRouter(&controllers.TopicController{})
+	beego.AutoRouter(&controllers.CommentController{})
 }

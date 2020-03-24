@@ -29,14 +29,15 @@ func (c *TopicController) Post() {
 
 	title := c.Input().Get("title")
 	content := c.Input().Get("content")
+	category := c.Input().Get("category")
 
 	var err error
 	tid := c.Input().Get("tid")
 	if len(tid) > 0 {
 		beego.Info("tid=", tid)
-		err = models.ModifyTopic(title, content, tid)
+		err = models.ModifyTopic(title, category, content, tid)
 	} else {
-		err = models.AddTopic(title, content)
+		err = models.AddTopic(title, category, content)
 	}
 	if err != nil {
 		beego.Error("add topic failed, err=", err)
@@ -51,6 +52,7 @@ func (c *TopicController) Add() {
 
 func (c *TopicController) View() {
 	c.TplName = "topic_view.html"
+	c.Data["IsLogin"] = utils.CheckAccountCookie(c.Ctx)
 	tid := c.Ctx.Input.Param("0")
 
 	topic, err := models.GetTopic(tid)
@@ -60,6 +62,13 @@ func (c *TopicController) View() {
 		return
 	}
 	c.Data["Topic"] = topic
+
+	comments, err := models.GetCommentByTid(tid)
+	if err != nil {
+		beego.Error("get comment failed, tid=", tid)
+		return
+	}
+	c.Data["Comments"] = comments
 }
 
 func (c *TopicController) Modify() {
@@ -77,6 +86,10 @@ func (c *TopicController) Modify() {
 }
 
 func (c *TopicController) Delete() {
+	if !utils.CheckAccountCookie(c.Ctx) {
+		return
+	}
+
 	tid := c.Input().Get("tid")
 	err := models.DeleteTopic(tid)
 	if err != nil {

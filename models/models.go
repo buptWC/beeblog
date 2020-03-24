@@ -21,6 +21,7 @@ type Topic struct {
 	Id              int64
 	Uid             int64
 	Title           string
+	Category        string
 	Content         string `orm:"size(5000)"`
 	Attachment      string
 	Created         time.Time `orm:"index"`
@@ -30,4 +31,13 @@ type Topic struct {
 	ReplyTime       time.Time `orm:"index"`
 	ReplyCount      int64
 	ReplyLastUserId int64
+}
+
+// 评论
+type Comment struct {
+	Id      int64
+	Tid     int64
+	Name    string
+	Content string    `orm:"size(1000)"`
+	Created time.Time `orm:"index"`
 }
