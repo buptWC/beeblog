@@ -15,9 +15,17 @@ func (c *MainController) Get() {
 	c.TplName = "home.html"
 	c.Data["IsLogin"] = utils.CheckAccountCookie(c.Ctx)
 
-	topics, err := models.GetAllTopics(true)
+	cate := c.Input().Get("cate")
+	topics, err := models.GetAllTopics(cate, true)
 	if err != nil {
 		beego.Error("get all topics failed, err=", err)
 	}
 	c.Data["Topics"] = topics
+
+	categories, err := models.GetAllCategory()
+	if err != nil {
+		beego.Error("get all category failed, err=", err)
+	}
+
+	c.Data["Category"] = categories
 }

@@ -14,7 +14,7 @@ func (c *TopicController) Get() {
 	c.Data["IsTopic"] = true
 	c.Data["IsLogin"] = utils.CheckAccountCookie(c.Ctx)
 	c.TplName = "topic.html"
-	topicList, err := models.GetAllTopics(false)
+	topicList, err := models.GetAllTopics("", false)
 	if err != nil {
 		beego.Error("get all topic failed, err=", err)
 	}
